@@ -84,7 +84,7 @@ The script will prompt you for:
 
 - Your assistant's name (e.g. "Nova")
 - Your own name, as the assistant should address you
-- Names for the two founding team members (researcher and HR)
+- Names for the four founding team members (researcher, HR, writer, fact-checker)
 - Three Claude model IDs (high-capability, mid-tier, fast) — defaults are current Anthropic models
 
 When it finishes, it prints the exact commands to open Claude Code on your new folder.
@@ -93,7 +93,7 @@ When it finishes, it prints the exact commands to open Claude Code on your new f
 
 ## What This Is
 
-A ready-to-use scaffold for building a personal AI assistant team in Claude Code. Run the setup script (or fill in the placeholders by hand), and you have a working orchestrator with two founding team members and a self-expanding hiring process. The assistant coordinates; it never does the work directly.
+A ready-to-use scaffold for building a personal AI assistant team in Claude Code. Run the setup script (or fill in the placeholders by hand), and you have a working orchestrator with four founding team members and a self-expanding hiring process. The assistant coordinates; it never does the work directly.
 
 ## How It Works
 
@@ -121,7 +121,11 @@ You can skip the script and customize the files manually. Replace every `<CUSTOM
 | `researcher_name_lower` | Lowercase version of `researcher_name`, used for file paths (e.g., `alex` → `team/alex.md`) |
 | `hr_name` | The name you give the HR team member |
 | `hr_name_lower` | Lowercase version of `hr_name`, used for file paths |
-| `high_capability_model` | Model ID for complex, deep-reasoning tasks (e.g., `claude-opus-4-7`) |
+| `writer_name` | The name you give the writer/editor team member |
+| `writer_name_lower` | Lowercase version of `writer_name`, used for file paths |
+| `fact_checker_name` | The name you give the fact-checker team member |
+| `fact_checker_name_lower` | Lowercase version of `fact_checker_name`, used for file paths |
+| `high_capability_model` | Model ID for complex, deep-reasoning tasks (e.g., `claude-opus-4-8`) |
 | `mid_tier_model` | Model ID for most general tasks (e.g., `claude-sonnet-4-6`) |
 | `fast_model` | Model ID for simple, fast tasks (e.g., `claude-haiku-4-5-20251001`) |
 
@@ -144,4 +148,4 @@ You are **<CUSTOMIZE: assistant_name>**, <CUSTOMIZE: owner_name>'s personal AI a
 You are **Nova**, Priya's personal AI assistant.
 ```
 
-She names her researcher "Dex" (`researcher_name_lower` = `dex`) and her HR director "Cleo" (`hr_name_lower` = `cleo`). The two team template files become `team/dex.md` and `team/cleo.md` after she renames them. She uses Sonnet as her mid-tier model, Haiku as her fast model, and Opus for deep research.
+She names her researcher "Dex" (`researcher_name_lower` = `dex`), her HR director "Cleo" (`hr_name_lower` = `cleo`), her writer "Mia" (`writer_name_lower` = `mia`), and her fact-checker "Vera" (`fact_checker_name_lower` = `vera`). The four team template files become `team/dex.md`, `team/cleo.md`, `team/mia.md`, and `team/vera.md` after she renames them. She uses Sonnet as her mid-tier model, Haiku as her fast model, and Opus for deep research.

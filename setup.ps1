@@ -45,7 +45,9 @@ $RequiredFiles = @(
     "CLAUDE.md",
     "README.md",
     "team\researcher_template.md",
-    "team\hr_template.md"
+    "team\hr_template.md",
+    "team\writer_template.md",
+    "team\fact_checker_template.md"
 )
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
@@ -197,10 +199,12 @@ if ($DryRun) {
 Write-Host "Step 1 of 3 - Name your team"
 Write-Host ""
 
-$AssistantName  = PromptValue "Your assistant's name (e.g. Nova, Max, Alex)" "Nova"
-$OwnerName      = PromptValue "Your own name, as the assistant should address you"
-$ResearcherName = PromptValue "Name for the researcher team member (e.g. Dex, Kai)" "Dex"
-$HrName         = PromptValue "Name for the HR team member (e.g. Cleo, Sam)" "Cleo"
+$AssistantName    = PromptValue "Your assistant's name (e.g. Nova, Max, Alex)" "Nova"
+$OwnerName        = PromptValue "Your own name, as the assistant should address you"
+$ResearcherName   = PromptValue "Name for the researcher team member (e.g. Dex, Kai)" "Dex"
+$HrName           = PromptValue "Name for the HR team member (e.g. Cleo, Sam)" "Cleo"
+$WriterName       = PromptValue "Name for the writer/editor team member (e.g. Mia, Jess)" "Mia"
+$FactCheckerName  = PromptValue "Name for the fact-checker team member (e.g. Vera, Cal)" "Vera"
 
 Write-Host ""
 Write-Host "Step 2 of 3 - Choose your models"
@@ -217,9 +221,11 @@ Write-Host "Step 3 of 3 - Choose a destination"
 Write-Host ""
 
 # Default target dir: named after the assistant, placed outside the kit folder.
-$AssistantNameLower  = ToLower $AssistantName
-$ResearcherNameLower = ToLower $ResearcherName
-$HrNameLower         = ToLower $HrName
+$AssistantNameLower   = ToLower $AssistantName
+$ResearcherNameLower  = ToLower $ResearcherName
+$HrNameLower          = ToLower $HrName
+$WriterNameLower      = ToLower $WriterName
+$FactCheckerNameLower = ToLower $FactCheckerName
 
 # Determine the default output location. Normally one level up from the kit.
 # When OneDrive downloads a duplicate it wraps the kit in a numbered folder
@@ -244,10 +250,12 @@ $TargetDir = $TargetDir.TrimEnd('\', '/')
 # Light character check: warn if names contain characters unsafe in filenames.
 $unsafeChars = [System.IO.Path]::GetInvalidFileNameChars() + @('\', '/')
 $namesToCheck = @{
-    "assistant name"  = $AssistantName
-    "owner name"      = $OwnerName
-    "researcher name" = $ResearcherName
-    "HR name"         = $HrName
+    "assistant name"   = $AssistantName
+    "owner name"       = $OwnerName
+    "researcher name"  = $ResearcherName
+    "HR name"          = $HrName
+    "writer name"      = $WriterName
+    "fact-checker name"= $FactCheckerName
 }
 foreach ($entry in $namesToCheck.GetEnumerator()) {
     foreach ($ch in $unsafeChars) {
@@ -294,6 +302,8 @@ Write-Host "  Assistant name   : $AssistantName  (lower: $AssistantNameLower)"
 Write-Host "  Owner name       : $OwnerName"
 Write-Host "  Researcher       : $ResearcherName  (lower: $ResearcherNameLower)"
 Write-Host "  HR director      : $HrName  (lower: $HrNameLower)"
+Write-Host "  Writer/editor    : $WriterName  (lower: $WriterNameLower)"
+Write-Host "  Fact-checker     : $FactCheckerName  (lower: $FactCheckerNameLower)"
 Write-Host "  High-cap model   : $HighCapabilityModel"
 Write-Host "  Mid-tier model   : $MidTierModel"
 Write-Host "  Fast model       : $FastModel"
@@ -363,15 +373,19 @@ Write-Host "Substituting placeholders..."
 # Build ordered list of [pattern, replacement] pairs.
 # Order: _lower variants before bare names to avoid partial-match corruption.
 $substitutions = [ordered]@{
-    '<CUSTOMIZE: assistant_name>'       = $AssistantName
-    '<CUSTOMIZE: owner_name>'           = $OwnerName
-    '<CUSTOMIZE: researcher_name_lower>'= $ResearcherNameLower
-    '<CUSTOMIZE: researcher_name>'      = $ResearcherName
-    '<CUSTOMIZE: hr_name_lower>'        = $HrNameLower
-    '<CUSTOMIZE: hr_name>'              = $HrName
-    '<CUSTOMIZE: high_capability_model>'= $HighCapabilityModel
-    '<CUSTOMIZE: mid_tier_model>'       = $MidTierModel
-    '<CUSTOMIZE: fast_model>'           = $FastModel
+    '<CUSTOMIZE: assistant_name>'          = $AssistantName
+    '<CUSTOMIZE: owner_name>'              = $OwnerName
+    '<CUSTOMIZE: researcher_name_lower>'   = $ResearcherNameLower
+    '<CUSTOMIZE: researcher_name>'         = $ResearcherName
+    '<CUSTOMIZE: hr_name_lower>'           = $HrNameLower
+    '<CUSTOMIZE: hr_name>'                 = $HrName
+    '<CUSTOMIZE: writer_name_lower>'       = $WriterNameLower
+    '<CUSTOMIZE: writer_name>'             = $WriterName
+    '<CUSTOMIZE: fact_checker_name_lower>' = $FactCheckerNameLower
+    '<CUSTOMIZE: fact_checker_name>'       = $FactCheckerName
+    '<CUSTOMIZE: high_capability_model>'   = $HighCapabilityModel
+    '<CUSTOMIZE: mid_tier_model>'          = $MidTierModel
+    '<CUSTOMIZE: fast_model>'              = $FastModel
 }
 
 if ($DryRun) {
@@ -429,6 +443,22 @@ if ((Test-Path $HrSrc) -or $DryRun) {
     }
 }
 
+$WriterSrc = Join-Path $TargetDir "team\writer_template.md"
+$WriterDst = Join-Path $TargetDir "team\$WriterNameLower.md"
+if ((Test-Path $WriterSrc) -or $DryRun) {
+    Preview "  rename team\writer_template.md -> team\$WriterNameLower.md" {
+        Move-Item -Path $WriterSrc -Destination $WriterDst -Force
+    }
+}
+
+$FactCheckerSrc = Join-Path $TargetDir "team\fact_checker_template.md"
+$FactCheckerDst = Join-Path $TargetDir "team\$FactCheckerNameLower.md"
+if ((Test-Path $FactCheckerSrc) -or $DryRun) {
+    Preview "  rename team\fact_checker_template.md -> team\$FactCheckerNameLower.md" {
+        Move-Item -Path $FactCheckerSrc -Destination $FactCheckerDst -Force
+    }
+}
+
 # ── Done ───────────────────────────────────────────────────────────────────────
 
 if ($DryRun) {
@@ -445,7 +475,7 @@ Write-Host "------------------------------"
 Write-Host ""
 Write-Host "  Folder   : $TargetDir"
 Write-Host "  Assistant: $AssistantName"
-Write-Host "  Team     : $ResearcherName (researcher), $HrName (HR)"
+Write-Host "  Team     : $ResearcherName (researcher), $HrName (HR), $WriterName (writer), $FactCheckerName (fact-checker)"
 Write-Host ""
 Write-Host "Next steps:"
 Write-Host ""

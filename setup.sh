@@ -25,6 +25,8 @@ REQUIRED_FILES=(
   "README.md"
   "team/researcher_template.md"
   "team/hr_template.md"
+  "team/writer_template.md"
+  "team/fact_checker_template.md"
 )
 
 # ── Flags ──────────────────────────────────────────────────────────────────────
@@ -183,10 +185,12 @@ fi
 
 printf 'Step 1 of 3 — Name your team\n\n'
 
-prompt_value ASSISTANT_NAME  "Your assistant's name (e.g. Nova, Max, Alex)" "Nova"
-prompt_value OWNER_NAME      "Your own name, as the assistant should address you" ""
-prompt_value RESEARCHER_NAME "Name for the researcher team member (e.g. Dex, Kai)" "Dex"
-prompt_value HR_NAME         "Name for the HR team member (e.g. Cleo, Sam)"        "Cleo"
+prompt_value ASSISTANT_NAME    "Your assistant's name (e.g. Nova, Max, Alex)"          "Nova"
+prompt_value OWNER_NAME        "Your own name, as the assistant should address you"    ""
+prompt_value RESEARCHER_NAME   "Name for the researcher team member (e.g. Dex, Kai)"  "Dex"
+prompt_value HR_NAME           "Name for the HR team member (e.g. Cleo, Sam)"         "Cleo"
+prompt_value WRITER_NAME       "Name for the writer/editor team member (e.g. Mia, Jess)" "Mia"
+prompt_value FACT_CHECKER_NAME "Name for the fact-checker team member (e.g. Vera, Cal)"  "Vera"
 
 printf '\nStep 2 of 3 — Choose your models\n\n'
 printf '  (These are Claude model IDs. Defaults are current Anthropic models.)\n\n'
@@ -207,6 +211,8 @@ printf '\nStep 3 of 3 — Choose a destination\n\n'
 ASSISTANT_NAME_LOWER="$(to_lower "$ASSISTANT_NAME")"
 RESEARCHER_NAME_LOWER="$(to_lower "$RESEARCHER_NAME")"
 HR_NAME_LOWER="$(to_lower "$HR_NAME")"
+WRITER_NAME_LOWER="$(to_lower "$WRITER_NAME")"
+FACT_CHECKER_NAME_LOWER="$(to_lower "$FACT_CHECKER_NAME")"
 
 DEFAULT_TARGET_DIR="$(dirname "$SCRIPT_DIR")/${ASSISTANT_NAME_LOWER}"
 prompt_value TARGET_DIR \
@@ -217,7 +223,7 @@ prompt_value TARGET_DIR \
 
 # Light character check: warn if names contain characters that could break
 # filenames or sed patterns on common filesystems.
-for name_var in ASSISTANT_NAME OWNER_NAME RESEARCHER_NAME HR_NAME; do
+for name_var in ASSISTANT_NAME OWNER_NAME RESEARCHER_NAME HR_NAME WRITER_NAME FACT_CHECKER_NAME; do
   name_val="${!name_var}"
   if [[ "$name_val" =~ [/\\:*?\"\<\>\|] ]]; then
     die "\"$name_val\" contains characters that are not safe in filenames or file content." \
@@ -276,6 +282,8 @@ What is about to happen
   Owner name       : $OWNER_NAME
   Researcher       : $RESEARCHER_NAME  (lower: $RESEARCHER_NAME_LOWER)
   HR director      : $HR_NAME  (lower: $HR_NAME_LOWER)
+  Writer/editor    : $WRITER_NAME  (lower: $WRITER_NAME_LOWER)
+  Fact-checker     : $FACT_CHECKER_NAME  (lower: $FACT_CHECKER_NAME_LOWER)
   High-cap model   : $HIGH_CAPABILITY_MODEL
   Mid-tier model   : $MID_TIER_MODEL
   Fast model       : $FAST_MODEL
@@ -346,11 +354,15 @@ RESEARCHER_NAME_ESC="$(escape_sed_replacement "$RESEARCHER_NAME")"
 RESEARCHER_NAME_LOWER_ESC="$(escape_sed_replacement "$RESEARCHER_NAME_LOWER")"
 HR_NAME_ESC="$(escape_sed_replacement "$HR_NAME")"
 HR_NAME_LOWER_ESC="$(escape_sed_replacement "$HR_NAME_LOWER")"
+WRITER_NAME_ESC="$(escape_sed_replacement "$WRITER_NAME")"
+WRITER_NAME_LOWER_ESC="$(escape_sed_replacement "$WRITER_NAME_LOWER")"
+FACT_CHECKER_NAME_ESC="$(escape_sed_replacement "$FACT_CHECKER_NAME")"
+FACT_CHECKER_NAME_LOWER_ESC="$(escape_sed_replacement "$FACT_CHECKER_NAME_LOWER")"
 HIGH_CAPABILITY_MODEL_ESC="$(escape_sed_replacement "$HIGH_CAPABILITY_MODEL")"
 MID_TIER_MODEL_ESC="$(escape_sed_replacement "$MID_TIER_MODEL")"
 FAST_MODEL_ESC="$(escape_sed_replacement "$FAST_MODEL")"
 
-# Build a chained sed expression for all nine slots.
+# Build a chained sed expression for all thirteen slots.
 # Order matters: do the _lower variants before the bare names so partial
 # matches don't corrupt them.
 sed_expr=""
@@ -360,6 +372,10 @@ sed_expr+="s/<CUSTOMIZE: researcher_name_lower>/${RESEARCHER_NAME_LOWER_ESC}/g;"
 sed_expr+="s/<CUSTOMIZE: researcher_name>/${RESEARCHER_NAME_ESC}/g;"
 sed_expr+="s/<CUSTOMIZE: hr_name_lower>/${HR_NAME_LOWER_ESC}/g;"
 sed_expr+="s/<CUSTOMIZE: hr_name>/${HR_NAME_ESC}/g;"
+sed_expr+="s/<CUSTOMIZE: writer_name_lower>/${WRITER_NAME_LOWER_ESC}/g;"
+sed_expr+="s/<CUSTOMIZE: writer_name>/${WRITER_NAME_ESC}/g;"
+sed_expr+="s/<CUSTOMIZE: fact_checker_name_lower>/${FACT_CHECKER_NAME_LOWER_ESC}/g;"
+sed_expr+="s/<CUSTOMIZE: fact_checker_name>/${FACT_CHECKER_NAME_ESC}/g;"
 sed_expr+="s/<CUSTOMIZE: high_capability_model>/${HIGH_CAPABILITY_MODEL_ESC}/g;"
 sed_expr+="s/<CUSTOMIZE: mid_tier_model>/${MID_TIER_MODEL_ESC}/g;"
 sed_expr+="s/<CUSTOMIZE: fast_model>/${FAST_MODEL_ESC}/g;"
@@ -403,6 +419,20 @@ if [[ -f "$HR_SRC" ]] || "$DRY_RUN"; then
     mv "$HR_SRC" "$HR_DST"
 fi
 
+WRITER_SRC="$TARGET_DIR/team/writer_template.md"
+WRITER_DST="$TARGET_DIR/team/${WRITER_NAME_LOWER}.md"
+if [[ -f "$WRITER_SRC" ]] || "$DRY_RUN"; then
+  preview "  rename team/writer_template.md -> team/${WRITER_NAME_LOWER}.md" \
+    mv "$WRITER_SRC" "$WRITER_DST"
+fi
+
+FACT_CHECKER_SRC="$TARGET_DIR/team/fact_checker_template.md"
+FACT_CHECKER_DST="$TARGET_DIR/team/${FACT_CHECKER_NAME_LOWER}.md"
+if [[ -f "$FACT_CHECKER_SRC" ]] || "$DRY_RUN"; then
+  preview "  rename team/fact_checker_template.md -> team/${FACT_CHECKER_NAME_LOWER}.md" \
+    mv "$FACT_CHECKER_SRC" "$FACT_CHECKER_DST"
+fi
+
 # ── Done ───────────────────────────────────────────────────────────────────────
 
 if "$DRY_RUN"; then
@@ -418,7 +448,7 @@ Done. Your assistant is ready.
 
   Folder   : $TARGET_DIR
   Assistant: $ASSISTANT_NAME
-  Team     : $RESEARCHER_NAME (researcher), $HR_NAME (HR)
+  Team     : $RESEARCHER_NAME (researcher), $HR_NAME (HR), $WRITER_NAME (writer), $FACT_CHECKER_NAME (fact-checker)
 
 Next steps:
 
