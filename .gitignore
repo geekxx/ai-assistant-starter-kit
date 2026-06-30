@@ -1,0 +1,10 @@
+.DS_Store
+*.DS_Store
+owners_inbox/**
+!owners_inbox/.gitkeep
+!owners_inbox/archive/
+!owners_inbox/archive/.gitkeep
+team_inbox/**
+!team_inbox/.gitkeep
+!team_inbox/archive/
+!team_inbox/archive/.gitkeep
