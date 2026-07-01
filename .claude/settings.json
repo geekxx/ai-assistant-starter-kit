@@ -1,0 +1,16 @@
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/check-trace-footer.py\"",
+            "statusMessage": "Checking owners_inbox deliverable for trace footer..."
+          }
+        ]
+      }
+    ]
+  }
+}

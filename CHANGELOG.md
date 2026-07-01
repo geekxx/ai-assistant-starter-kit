@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented here.
 
+## [1.2.0] — 2026-07-01
+
+Bundled .claude infrastructure: hooks, skills, and safe-move script.
+
+### Added
+- `.claude/settings.json` — registers the trace-footer PostToolUse hook out of the box. Uses `$CLAUDE_PROJECT_DIR` for portability across machines.
+- `.claude/hooks/check-trace-footer.py` — enforcement hook that warns when a deliverable lands in `owners_inbox/` with factual claims but no Sources: footer or [Unverified] marker.
+- `.claude/skills/intake/SKILL.md` — delegation intake interview skill. Runs a 6-question brief before delegating significant tasks, then compresses answers into the specialist's spawn prompt.
+- `.claude/skills/safe-mv/SKILL.md` — safe-move skill for cloud-synced paths (OneDrive, Google Drive). Prevents silent data loss from zero-byte offline stubs.
+- `.claude/scripts/safe-mv.sh` — the underlying safe-move wrapper script (bash 3.2+, macOS/Linux).
+
 ## [1.1.2] — 2026-07-01
 
 First-run welcome and session greeting.
