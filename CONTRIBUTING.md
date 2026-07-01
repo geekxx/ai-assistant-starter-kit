@@ -18,7 +18,7 @@ Contributions are welcome. The kit is deliberately minimal — no build step, no
 1. Open an issue describing the agent's role and why it belongs in the founding set.
 2. If the role is agreed on, submit a PR with:
    - `team/<role>_template.md` following the existing template structure
-   - Updated slot entries in `CLAUDE.md` and `README.md`
+   - Updated slot entries in `CLAUDE.template.md`, `CLAUDE.md`, and `README.md`
    - Updated `REQUIRED_FILES` and substitution logic in `setup.sh` and `setup.ps1`
    - A new prompt in the setup scripts to let users name the agent
 

@@ -21,7 +21,7 @@ SCRIPT_NAME="$(basename "${BASH_SOURCE[0]}")"
 
 # Expected template files (relative to SCRIPT_DIR), used in preflight check.
 REQUIRED_FILES=(
-  "CLAUDE.md"
+  "CLAUDE.template.md"
   "README.md"
   "team/researcher_template.md"
   "team/hr_template.md"
@@ -431,6 +431,19 @@ FACT_CHECKER_DST="$TARGET_DIR/team/${FACT_CHECKER_NAME_LOWER}.md"
 if [[ -f "$FACT_CHECKER_SRC" ]] || "$DRY_RUN"; then
   preview "  rename team/fact_checker_template.md -> team/${FACT_CHECKER_NAME_LOWER}.md" \
     mv "$FACT_CHECKER_SRC" "$FACT_CHECKER_DST"
+fi
+
+# ── Finalize CLAUDE.md ─────────────────────────────────────────────────────────
+# Replace the kit's CLAUDE.md (developer instructions) with the operating manual
+# template. The kit's CLAUDE.md is not meant for users; CLAUDE.template.md is.
+
+printf 'Finalizing CLAUDE.md...\n'
+
+CLAUDE_TEMPLATE_SRC="$TARGET_DIR/CLAUDE.template.md"
+CLAUDE_DST="$TARGET_DIR/CLAUDE.md"
+if [[ -f "$CLAUDE_TEMPLATE_SRC" ]] || "$DRY_RUN"; then
+  preview "  rename CLAUDE.template.md -> CLAUDE.md" \
+    mv "$CLAUDE_TEMPLATE_SRC" "$CLAUDE_DST"
 fi
 
 # ── Done ───────────────────────────────────────────────────────────────────────

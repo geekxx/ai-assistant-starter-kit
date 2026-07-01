@@ -42,7 +42,7 @@ $ScriptDir  = Split-Path -Parent $MyInvocation.MyCommand.Path
 $ScriptName = Split-Path -Leaf  $MyInvocation.MyCommand.Path
 
 $RequiredFiles = @(
-    "CLAUDE.md",
+    "CLAUDE.template.md",
     "README.md",
     "team\researcher_template.md",
     "team\hr_template.md",
@@ -456,6 +456,20 @@ $FactCheckerDst = Join-Path $TargetDir "team\$FactCheckerNameLower.md"
 if ((Test-Path $FactCheckerSrc) -or $DryRun) {
     Preview "  rename team\fact_checker_template.md -> team\$FactCheckerNameLower.md" {
         Move-Item -Path $FactCheckerSrc -Destination $FactCheckerDst -Force
+    }
+}
+
+# ── Finalize CLAUDE.md ─────────────────────────────────────────────────────────
+# Replace the kit's CLAUDE.md (developer instructions) with the operating manual
+# template. The kit's CLAUDE.md is not meant for users; CLAUDE.template.md is.
+
+Write-Host "Finalizing CLAUDE.md..."
+
+$ClaudeTemplateSrc = Join-Path $TargetDir "CLAUDE.template.md"
+$ClaudeDst         = Join-Path $TargetDir "CLAUDE.md"
+if ((Test-Path $ClaudeTemplateSrc) -or $DryRun) {
+    Preview "  rename CLAUDE.template.md -> CLAUDE.md" {
+        Move-Item -Path $ClaudeTemplateSrc -Destination $ClaudeDst -Force
     }
 }
 

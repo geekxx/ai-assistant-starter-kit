@@ -111,7 +111,7 @@ The bootstrap block at the bottom of `CLAUDE.md` is safe to delete once you have
 
 ## If You'd Rather Do It by Hand
 
-You can skip the script and customize the files manually. Replace every `<CUSTOMIZE: slot_name>` placeholder with your chosen value across all files in the kit. The slots are:
+You can skip the script and customize the files manually. Replace every `<CUSTOMIZE: slot_name>` placeholder with your chosen value across the template files, then rename `CLAUDE.template.md` to `CLAUDE.md` in your working directory. The slots are:
 
 | Slot | Description |
 |------|-------------|
@@ -148,4 +148,4 @@ You are **<CUSTOMIZE: assistant_name>**, <CUSTOMIZE: owner_name>'s personal AI a
 You are **Nova**, Priya's personal AI assistant.
 ```
 
-She names her researcher "Dex" (`researcher_name_lower` = `dex`), her HR director "Cleo" (`hr_name_lower` = `cleo`), her writer "Mia" (`writer_name_lower` = `mia`), and her fact-checker "Vera" (`fact_checker_name_lower` = `vera`). The four team template files become `team/dex.md`, `team/cleo.md`, `team/mia.md`, and `team/vera.md` after she renames them. She uses Sonnet as her mid-tier model, Haiku as her fast model, and Opus for deep research.
+She names her researcher "Dex" (`researcher_name_lower` = `dex`), her HR director "Cleo" (`hr_name_lower` = `cleo`), her writer "Mia" (`writer_name_lower` = `mia`), and her fact-checker "Vera" (`fact_checker_name_lower` = `vera`). The four team template files become `team/dex.md`, `team/cleo.md`, `team/mia.md`, and `team/vera.md` after she renames them. She also renames `CLAUDE.template.md` to `CLAUDE.md`. She uses Sonnet as her mid-tier model, Haiku as her fast model, and Opus for deep research.
