@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented here.
 
+## [1.1.1] — 2026-06-30
+
+Attribution.
+
+### Added
+- Credit to Chris Gagné's [grounded-forge](https://github.com/chrisgagne/grounded-forge) for the fact-checker's evidence-class markers, in the Fact-Checker template and a new README Acknowledgments section. The trace footer and `[Unverified]` marker are the kit's own convention; only the evidence-class taxonomy is adapted from grounded-forge.
+
 ## [1.1.0] — 2026-06-30
 
 Grounding discipline.

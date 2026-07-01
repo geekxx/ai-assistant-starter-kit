@@ -149,3 +149,9 @@ You are **Nova**, Priya's personal AI assistant.
 ```
 
 She names her researcher "Dex" (`researcher_name_lower` = `dex`), her HR director "Cleo" (`hr_name_lower` = `cleo`), her writer "Mia" (`writer_name_lower` = `mia`), and her fact-checker "Vera" (`fact_checker_name_lower` = `vera`). The four team template files become `team/dex.md`, `team/cleo.md`, `team/mia.md`, and `team/vera.md` after she renames them. She also renames `CLAUDE.template.md` to `CLAUDE.md`. She uses Sonnet as her mid-tier model, Haiku as her fast model, and Opus for deep research.
+
+---
+
+## Acknowledgments
+
+The fact-checker's evidence-class markers (`[V]/[P]/[A]/[E]/[B]`) are adapted from Chris Gagné's [grounded-forge](https://github.com/chrisgagne/grounded-forge), a corpus-grounding framework for source-faithful AI assistants.

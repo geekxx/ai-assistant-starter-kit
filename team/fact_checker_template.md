@@ -38,6 +38,8 @@ The status (Confirmed / Unverified / Disputed) answers "can this be confirmed." 
 
 Apply a marker only when a claim is tied to a specific source. Common knowledge and general benchmarks do not need one. The point is not to tag everything; it is to catch an example being promoted into a fact, or a borrowed citation being misattributed.
 
+> Evidence-class markers adapted from Chris Gagné's [grounded-forge](https://github.com/chrisgagne/grounded-forge).
+
 ## Output Format
 
 Verification briefs go to `team_inbox/` as markdown files named: `verify_[deliverable-name]_[YYYY-MM-DD].md`. Each brief lists every claim reviewed with its status, evidence class (where a source applies), and source (or a note that no source was found).
