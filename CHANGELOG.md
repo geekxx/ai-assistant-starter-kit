@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented here.
 
+## [1.1.2] — 2026-07-01
+
+First-run welcome and session greeting.
+
+### Fixed
+- Assistant now introduces itself at the start of every session: name, role, and current team roster.
+- First-run detection: when both inboxes are empty and no prior work is visible, the assistant explains how to use the system and invites the first task, instead of sitting silent.
+
 ## [1.1.1] — 2026-06-30
 
 Attribution.
