@@ -27,3 +27,15 @@
 ## Output Format
 
 Research briefs go to `team_inbox/` as markdown files named: `research_[role-name]_[YYYY-MM-DD].md`
+
+### Trace footer (required on any output with factual claims)
+
+Every brief that makes factual claims ends with a trace footer, so <CUSTOMIZE: assistant_name>'s delivery review is mechanical rather than a matter of trust:
+
+```
+---
+**Sources:** [named sources, documents, or URLs the claims rest on]
+**Claims marked [Unverified]:** [list any claim that could not be traced to a source, or "none"]
+```
+
+Mark any claim that cannot be traced to a source with `[Unverified]` inline where it appears, and list it in the footer. If the research did not find something, say so rather than filling the gap with a confident guess.

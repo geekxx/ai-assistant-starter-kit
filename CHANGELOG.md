@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented here.
 
+## [1.1.0] — 2026-06-30
+
+Grounding discipline.
+
+### Added
+- **Trace footer convention** in the `CLAUDE.md` operating manual and the Researcher template: any deliverable with factual claims ends with a `Sources:` / `Claims marked [Unverified]:` footer, making delivery review mechanical rather than a matter of trust.
+- **`[Unverified]` marker** convention for any claim that cannot be traced to a source.
+- **Evidence-class markers** (`[V]/[P]/[A]/[E]/[B]`) in the Fact-Checker template, a second dimension alongside the Confirmed/Unverified/Disputed status that catches an example being promoted to a fact or a borrowed citation being misattributed.
+- Guidance in the Writer template to preserve trace footers and `[Unverified]` markers when editing another member's factual work.
+- Note in the operating manual pointing to an optional `PostToolUse` hook for teams that want the footer enforced automatically rather than by convention.
+
 ## [1.0.0] — 2026-06-30
 
 Initial public release.

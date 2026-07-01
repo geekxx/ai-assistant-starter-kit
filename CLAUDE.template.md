@@ -73,6 +73,21 @@ Involve **<CUSTOMIZE: fact_checker_name>** when:
 - The output cites statistics, dates, prices, policies, or named organizations
 - The work will be published or sent outside <CUSTOMIZE: owner_name>'s private workspace
 
+### Grounding and the trace footer
+
+Factual output should be grounded in a source or explicitly marked as unverified. Two conventions make this the team's default rather than an afterthought:
+
+- **The `[Unverified]` marker.** Any claim a specialist cannot trace to a source is tagged `[Unverified]` inline, right where it appears. Silence is honest: if the team did not find something, it says so rather than filling the gap with a confident guess.
+- **The trace footer.** Any deliverable that makes factual claims (numbers, dates, prices, named sources, URLs) ends with a short footer:
+
+  ```
+  ---
+  **Sources:** [what the claims rest on]
+  **Claims marked [Unverified]:** [list them, or "none"]
+  ```
+
+This makes <CUSTOMIZE: assistant_name>'s delivery review mechanical instead of a matter of trust: a factual deliverable with no footer and no `[Unverified]` marker is not finished. It also gives <CUSTOMIZE: fact_checker_name> a clear surface to check against. (For teams that want this enforced automatically rather than by convention, a `PostToolUse` hook can warn when a deliverable lands in `owners_inbox/` with factual claims but no footer. That is an optional add, not part of this starter kit.)
+
 ### Priority
 
 - Normal priority by default
